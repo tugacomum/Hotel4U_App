@@ -12,13 +12,6 @@ import {
   Image,
   Animated,
 } from 'react-native';
-import {
-  Button,
-  Menu,
-  Divider,
-  Provider
-} from 'react-native-paper';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import hotels from '../../consts/hotels';
@@ -30,10 +23,6 @@ const HomeScreen = ({ navigation }) => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
   const [activeCardIndex, setActiveCardIndex] = React.useState(0);
   const scrollX = React.useRef(new Animated.Value(0)).current;
-
-  const [visible, setVisible] = React.useState(false);
-  const openMenu = () => setVisible(true);
-  const closeMenu = () => setVisible(false);
 
   const CategoryList = ({ navigation }) => {
     return (
@@ -174,18 +163,7 @@ const HomeScreen = ({ navigation }) => {
 
           </View>
         </View>
-        <Provider>
-          <View>
-            <Menu
-              zIndex={1}
-              visible={visible}
-              onDismiss={closeMenu}
-              anchor={<TouchableOpacity onPress={() => openMenu(true)}><Icon name="person-outline" size={38} color={COLORS.grey} ></Icon></TouchableOpacity>}>
-              <Menu.Item onPress={() => { }} title="Item 1" />
-              <Menu.Item onPress={() => { }} title="Item 2" />
-              <Divider />
-              <Menu.Item onPress={() => { }} title="Item 3" />
-            </Menu></View></Provider>
+        <TouchableOpacity onPress={() => navigation.navigate("UserScreen")}><Icon name="person-outline" size={38} color={COLORS.grey} ></Icon></TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={style.searchInputContainer}>
@@ -228,7 +206,7 @@ const HomeScreen = ({ navigation }) => {
           <Text style={{ fontWeight: 'bold', color: COLORS.grey }}>
             Top hotels
           </Text>
-          <Text style={{ color: COLORS.grey }}>Show all</Text>
+          <TouchableOpacity><Text style={{ color: COLORS.grey }}>Show all</Text></TouchableOpacity>
         </View>
         <FlatList
           data={hotels}
