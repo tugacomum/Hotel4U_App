@@ -47,7 +47,7 @@ const HomeScreen = ({ navigation }) => {
                 <View
                   style={{
                     height: 3,
-                    width: 30,
+                    width: 3,
                     backgroundColor: COLORS.primary,
                     marginTop: 2,
                   }}
@@ -248,7 +248,6 @@ const style = StyleSheet.create({
     marginTop: 30,
   },
   categoryListText: {
-    fontSize: 17,
     fontWeight: 'bold',
   },
   card: {
