@@ -19,10 +19,12 @@
     "expo-app-loading": "~2.0.0",
     "expo-checkbox": "~2.1.0",
     "expo-status-bar": "~1.4.2",
+    "moment": "^2.29.4",
     "native-base": "^2.15.2",
     "react": "17.0.2",
     "react-native": "0.68.2",
     "react-native-anchor-carousel": "^3.1.2",
+    "react-native-flash-message": "^0.4.0",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-modal": "^13.0.1",
     "react-native-modal-datetime-picker": "^13.1.2",
@@ -31,7 +33,9 @@
     "react-native-safe-area-context": "^4.4.1",
     "react-native-screens": "^3.18.0",
     "react-native-snap-carousel": "^3.9.1",
-    "react-native-vector-icons": "^7.1.0"
+    "react-native-vector-icons": "^7.1.0",
+    "validator": "^13.7.0",
+    "watchman": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

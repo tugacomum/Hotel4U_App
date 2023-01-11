@@ -42,8 +42,9 @@ export default function AuthRoutes() {
     const [isLoadingDone, setLoadingDone] = useState(false);
 
     useEffect(() => {
-        getData();
-    }, []);
+        getData()
+    });
+
     async function getData() {
         try {
             const response = await AsyncStorage.getItem('OnBoard');
@@ -53,7 +54,9 @@ export default function AuthRoutes() {
         } catch (error) {
             console.log(error);
         } finally {
-            setLoadingDone(true);
+            setTimeout(()=> {
+                setLoadingDone(true);
+              }, 500);
         }
     };
 

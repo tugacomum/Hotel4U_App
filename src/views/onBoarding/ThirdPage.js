@@ -3,8 +3,13 @@ import { View, ImageBackground, Image, TouchableOpacity, StatusBar } from 'react
 
 import COLORS from '../../consts/colors';
 import Icon from "react-native-vector-icons/FontAwesome";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ThirdPage({ navigation }) {
+  function finishBoard() {
+    AsyncStorage.setItem('OnBoard', "0")
+    navigation.navigate('SignIn')
+  }
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
@@ -34,7 +39,7 @@ export default function ThirdPage({ navigation }) {
             >
 
               <TouchableOpacity
-                onPress={() => navigation.navigate('SignIn')}
+                onPress={() => finishBoard()}
                 style={{
                   backgroundColor: COLORS.primary,
                   width: 52,

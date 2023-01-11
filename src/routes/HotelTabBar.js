@@ -8,19 +8,16 @@ import COLORS from '../consts/colors'
 
 const TAB_BAR_ITEMS = [
     {
-        label: "Home",
         icon: tabHome,
         index: 0,
         route: "HomeScreen"
     },
     {
-        label: "Favourites",
         icon: tabFavourites,
         index: 1,
         route: "FavouriteScreen"
     },
     {
-        label: "Profile",
         icon: tabProfile,
         index: 2,
         route: "ProfileScreen"
@@ -44,7 +41,6 @@ export default function MyTabBar({ navigation }) {
                                 source={item.icon}
                                 style={[styles.tabIcon, index == selectedTabIndex && { tintColor: COLORS.primary }]}
                                 resizeMode="contain" />
-                            <Text style={[styles.tabLabel, index == selectedTabIndex && { color: COLORS.primary }]} >{item.label}</Text>
                         </TouchableOpacity>
                     )
                 })
@@ -56,7 +52,7 @@ export default function MyTabBar({ navigation }) {
 const styles = StyleSheet.create({
     tabBarHeight: {
         flexDirection: "row",
-        height: Sizing(98),
+        height: Sizing(54),
         backgroundColor: "#fff",
         shadowColor: "#000000",
 
@@ -78,9 +74,9 @@ const styles = StyleSheet.create({
     },
 
     tabIcon: {
-        height: Sizing(30),
-        width: Sizing(30),
-        marginBottom: Sizing(10)
+        height: Sizing(26),
+        width: Sizing(26),
+        marginBottom: Sizing(6),
     },
     tabLabel: {
         fontSize: 12

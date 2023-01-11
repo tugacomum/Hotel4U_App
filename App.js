@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import 'react-native-gesture-handler';
 import { StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -11,8 +11,8 @@ const App = () => {
   // <AuthProvider></AuthProvider>
   return (
     <>
+      <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
       <NavigationContainer>
-        <StatusBar backgroundColor={COLORS.white} barStyle="dark-content" />
         <Routes />
       </NavigationContainer>
     </>

@@ -21,7 +21,7 @@ export default function AppRoutes() {
     }
     return (
         <>
-        <StatusBar barStyle='light-content' />
+        <StatusBar barStyle='dark-content' />
         <Tab.Navigator initialRouteName='HomeScreen' tabBar={props => <HotelTabBar {...props} />}>
           <Tab.Screen name="HomeScreen" component={Home} />
           <Tab.Screen name="ProfileScreen" component={User} />

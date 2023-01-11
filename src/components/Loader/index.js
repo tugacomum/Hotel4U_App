@@ -5,6 +5,6 @@ import COLORS from '../../consts/colors'
 
 export const Loader = ({ size = "small" }) => {
     return (
-        <ActivityIndicator size={size} color={COLORS.primary}  />
+        <ActivityIndicator size={size} color={COLORS.primary} animating={true} />
     )
 }

@@ -16,7 +16,7 @@ export default function signin() {
       style={{ flex: 1, backgroundColor: '#ffffff' }}
       showsVerticalScrollIndicator={false}>
       <View style={{ padding: 40, top: 40 }}>
-      <Image source={require('../../../assets/icon2.png')} style={{ alignSelf: 'center' }} />
+        <Image source={require('../../../assets/icon2.png')} style={{ alignSelf: 'center' }} />
         <View style={{ marginTop: 30 }}>
           <Image source={require('../../assets/user.png')} style={{ top: 40, right: 4, tintColor: COLORS.dark }} />
           <Item floatingLabel style={{ borderColor: '#A1A1A1', width: Dimensions.get('window').width / 1.15, alignSelf: 'center' }}>
@@ -40,16 +40,16 @@ export default function signin() {
           <Text style={{ color: '#383838', top: 22, fontSize: 15, fontStyle: 'normal', right: 8 }}>Remember me</Text>
           <Text style={{ color: COLORS.primary, textAlign: 'right', fontSize: 15, top: 22, fontStyle: 'normal', flex: 1 }}>Forgot password?</Text>
         </View>
-        <Button style={{ borderWidth: 1, borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary, width: Dimensions.get('window').width / 1.2, top: 60, alignSelf: 'center', justifyContent: 'center', height: 50 }}>
-          <Text style={{ color: 'white', fontWeight: '500', fontSize: 17, fontStyle: 'normal' }}>Log in</Text>
-        </Button>
+        <TouchableOpacity style={{ borderWidth: 1, borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary, width: Dimensions.get('window').width / 1.2, top: 60, alignSelf: 'center', justifyContent: 'center', height: 50 }}>
+          <Text style={{ color: 'white', fontWeight: '500', fontSize: 17, fontStyle: 'normal', alignSelf: 'center' }}>Log in</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('SignUp')
           }}
           style={{ marginTop: 70 }}
         >
-          <Text style={{ fontStyle: 'normal', alignSelf: 'center', fontSize: 15, lineHeight: 19.92 }}>Don't have an account?<Text style={{ fontWeight: '700', fontStyle: 'normal' }} > Register!</Text></Text>
+          <Text style={{ fontStyle: 'normal', alignSelf: 'center', fontSize: 15, lineHeight: 19.92, marginTop: 40 }}>Don't have an account?<Text style={{ fontWeight: '700', fontStyle: 'normal' }} > Register!</Text></Text>
         </TouchableOpacity>
         <View style={{ height: 200 }} />
       </View>

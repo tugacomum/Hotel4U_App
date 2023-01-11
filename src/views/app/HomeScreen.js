@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Loader } from '../../components/Loader/index'
+import { api } from '../../services/api';
 import {
   Dimensions,
   FlatList,
@@ -11,12 +13,15 @@ import {
   View,
   Image,
   Animated,
+  LogBox
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import hotels from '../../consts/hotels';
 const { width } = Dimensions.get('screen');
 const cardWidth = width / 1.8;
+
+LogBox.ignoreAllLogs();
 
 const HomeScreen = ({ navigation }) => {
   const categories = ['All', 'Popular', 'Top Rated', 'Featured', 'Luxury'];
@@ -151,82 +156,111 @@ const HomeScreen = ({ navigation }) => {
       </TouchableOpacity>
     );
   };
-
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-      <View style={style.header}>
-        <View style={{ paddingBottom: 15 }}>
-          <Text style={{ fontSize: 30, fontWeight: 'bold' }}>
-            Find your hotel
-          </Text>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>in </Text>
-            <Text
-              style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.primary }}>
-              Portugal
+  const [isLoadingDone, setLoadingDone] = useState(false);
+  const [data, setData] = useState([]);
+  async function getData() { 
+    try {
+      const response = await api.get('hotels').then(r => r.data);
+      setData(response)
+    } catch (err) {
+      console.log("Err: " + err)
+    } finally {
+      setTimeout(()=> {
+        setLoadingDone(true);
+      }, 500);
+    }
+  }
+  useEffect(()=>{
+    getData();
+  }, [])
+  if (!isLoadingDone) {
+    return (
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+            <Loader size="large" />
+        </View>
+    )
+  } else {
+    return (
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+        <View style={style.header}>
+          <View style={{ paddingBottom: 15 }}>
+            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>
+              Find your hotel
             </Text>
-
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{ fontSize: 30, fontWeight: 'bold' }}>in </Text>
+              <Text
+                style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.primary }}>
+                Portugal
+              </Text>
+  
+            </View>
           </View>
+          <Image source={require('../../assets/icon.png')} color={COLORS.dark} style={{
+            width: 70.03,
+            height: 69.14,
+            marginRight: 5,
+            bottom: 5
+          }}></Image>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate("UserScreen")}><Icon name="person-outline" size={38} color={COLORS.dark} ></Icon></TouchableOpacity>
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={style.searchInputContainer}>
-          <Icon name="search" size={30} style={{ marginLeft: 20 }} />
-          <TextInput
-            placeholder="Search"
-            style={{ fontSize: 20, paddingLeft: 10 }}
-          />
-        </View>
-        <CategoryList />
-        <View>
-          <Animated.FlatList
-            onMomentumScrollEnd={(e) => {
-              setActiveCardIndex(
-                Math.round(e.nativeEvent.contentOffset.x / cardWidth),
-              );
-            }}
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-              { useNativeDriver: true },
-            )}
-            horizontal
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={style.searchInputContainer}>
+            <Icon name="search" size={30} style={{ marginLeft: 20 }} />
+            <TextInput
+              placeholder="Search"
+              style={{ fontSize: 20, paddingLeft: 10 }}
+            />
+          </View>
+          <CategoryList />
+          <View>
+            <Animated.FlatList
+              onMomentumScrollEnd={(e) => {
+                setActiveCardIndex(
+                  Math.round(e.nativeEvent.contentOffset.x / cardWidth),
+                );
+              }}
+              onScroll={Animated.event(
+                [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                { useNativeDriver: true },
+              )}
+              horizontal
+              data={hotels}
+              contentContainerStyle={{
+                paddingVertical: 30,
+                paddingLeft: 20,
+                paddingRight: cardWidth / 2 - 40,
+              }}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item, index }) => <Card hotel={item} index={index} />}
+              snapToInterval={cardWidth}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: 20,
+            }}>
+            <Text style={{ fontWeight: 'bold', color: COLORS.grey }}>
+              Top hotels
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('HotelsScreen')}><Text style={{ color: COLORS.grey }}>Show all</Text></TouchableOpacity>
+          </View>
+          <FlatList
             data={hotels}
-            contentContainerStyle={{
-              paddingVertical: 30,
-              paddingLeft: 20,
-              paddingRight: cardWidth / 2 - 40,
-            }}
+            horizontal
             showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => <Card hotel={item} index={index} />}
-            snapToInterval={cardWidth}
+            contentContainerStyle={{
+              paddingLeft: 20,
+              marginTop: 20,
+              paddingBottom: 20,
+            }}
+            renderItem={({ item }) => <TopHotelCard hotel={item} />}
           />
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 20,
-          }}>
-          <Text style={{ fontWeight: 'bold', color: COLORS.grey }}>
-            Top hotels
-          </Text>
-          <TouchableOpacity onPress={() => navigation.navigate('HotelsScreen')}><Text style={{ color: COLORS.grey }}>Show all</Text></TouchableOpacity>
-        </View>
-        <FlatList
-          data={hotels}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingLeft: 20,
-            marginTop: 20,
-            paddingBottom: 30,
-          }}
-          renderItem={({ item }) => <TopHotelCard hotel={item} />}
-        />
-      </ScrollView>
-    </SafeAreaView>
-  );
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 };
 
 const style = StyleSheet.create({
@@ -235,6 +269,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
+    alignItems: 'center'
   },
   searchInputContainer: {
     height: 50,

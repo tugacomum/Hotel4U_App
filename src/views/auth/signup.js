@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Button } from 'react-native';
 import {
     View,
     Text,
@@ -22,10 +23,11 @@ import { Label, Item, Input, Picker } from 'native-base';
 import { useAuth } from '../../contexts/auth';
 
 import DateTimePicker from "../../components/DateTimePicker"
-import { Sizing } from "../../helpers/Sizing"
-import { isIOS } from "../../helpers"
+import { Sizing } from '../../helper/sizing'
+import { isIOS } from "../../helper"
+import { Dimensions } from 'react-native';
 
-import { backArrow, bellIcon, calendarIcon } from "../../../assets"
+import { backArrow, bellIcon, calendarIcon } from "../../assets/"
 
 import COLORS from '../../consts/colors';
 
@@ -45,7 +47,6 @@ const GymTextInput = ({
 
     return (
 
-
         <Item
             floatingLabel
             style={{
@@ -57,7 +58,6 @@ const GymTextInput = ({
             <Label
                 style={{
                     color: isFocused ? COLOR_GYM_RED : '#383838',
-                    fontFamily: 'Roboto_300Light',
                     fontStyle: 'normal',
                     fontSize: 16
                 }}
@@ -123,7 +123,7 @@ const GymPicker = ({
 const today = new Date();
 
 
-const signup = () => {
+const SignUp = () => {
 
     const navigation = useNavigation();
 
@@ -298,8 +298,6 @@ const signup = () => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
-            <Header />
-            <View style={styles.divider} />
             <ScrollView style={styles.mainView} >
                 <Text style={styles.title} >Register</Text>
 
@@ -325,11 +323,7 @@ const signup = () => {
                             value={country}
                             onChangeText={(text) => setCountry(text)}
                             pickerItems={[
-                                !isIOS && { label: "Country", value: null },
-                                { label: "USA", value: "1" },
-                                { label: "UK", value: "44" },
-                                { label: "Australia", value: "61" },
-                                { label: "Germany", value: "49" },
+                                { label: "PT", value: "351" },
                             ]}
                             customStyles={{ marginTop: 20 }}
                         />
@@ -464,16 +458,29 @@ const signup = () => {
                         value={location}
                         onChangeText={(text) => setLocation(text)}
                         pickerItems={[
-                            !isIOS && { label: "Select Location", value: null },
-                            { label: "Location 1", value: "1" },
-                            { label: "Location 2", value: "44" },
-                            { label: "Location 3", value: "61" },
-                            { label: "Location 4", value: "49" },
+                            { label: "Viseu", value: "1" },
+                            { label: "Aveiro", value: "2" },
+                            { label: "Braga", value: "3" },
+                            { label: "Bragança", value: "4" },
+                            { label: "Castelo Branco", value: "5" },
+                            { label: "Coimbra", value: "6" },
+                            { label: "Évora", value: "7" },
+                            { label: "Faro", value: "8" },
+                            { label: "Guarda", value: "9" },
+                            { label: "Leiria", value: "10" },
+                            { label: "Lisboa", value: "11" },
+                            { label: "Portalegre", value: "12" },
+                            { label: "Porto", value: "13" },
+                            { label: "Santarém", value: "14" },
+                            { label: "Setúbal", value: "15" },
+                            { label: "Viana do Castelo", value: "16" },
+                            { label: "Vila Real", value: "17" },
+                            { label: "Beja", value: "18" },
                         ]}
                         customStyles={{
                             marginTop: 20,
                             marginLeft: Sizing(isIOS ? -16 : -6),
-                            alignSelf: "stretch"
+                            alignSelf: "stretch",
                         }}
                     />
 
@@ -555,12 +562,11 @@ const styles = StyleSheet.create({
     },
 
     title: {
-        marginTop: Sizing(20), fontSize: 20, alignSelf: "center", fontFamily: "Roboto_700Bold"
+        marginTop: Sizing(20), fontSize: 17, alignSelf: "center", fontStyle: 'normal', fontWeight: '500'
     },
 
     dob: {
         fontSize: 14,
-        fontFamily: 'Roboto_300Light',
     },
 
     dobSelector: {
@@ -583,22 +589,21 @@ const styles = StyleSheet.create({
 
     chooseDob: {
         fontSize: 14,
-        fontFamily: 'Roboto_300Light',
     },
 
     registerBtn: {
         marginBottom: Sizing(20),
-        marginTop: Sizing(40),
+        marginTop: Sizing(30),
         backgroundColor: COLOR_GYM_RED,
         borderRadius: 30,
         height: 50,
-        alignSelf: "stretch",
+        alignSelf: "center",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        width: Dimensions.get('window').width / 1.2
     },
     registerBtnText: {
         color: "#FFFFFF",
-        fontFamily: 'Roboto_700Bold',
         fontSize: 20
     }
 })
