@@ -193,7 +193,6 @@ const HomeScreen = ({ navigation }) => {
                 style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.primary }}>
                 Portugal
               </Text>
-  
             </View>
           </View>
           <Image source={require('../../assets/icon.png')} color={COLORS.dark} style={{

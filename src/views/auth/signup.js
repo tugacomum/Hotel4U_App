@@ -133,7 +133,6 @@ const SignUp = () => {
     const [country, setCountry] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [email, setEmail] = useState("");
-    const [gender, setGender] = useState("m");
     const [password, setPassword] = useState("")
     const [cPassword, setCPassword] = useState("");
     const [address, setAddress] = useState("");
@@ -141,8 +140,6 @@ const SignUp = () => {
 
     const [dob, setDob] = useState(today);
     const [dateTimePickerVisible, setDateTimePickerVisibility] = useState(false);
-
-
 
     const [margin, setMargin] = useState(0);
 
@@ -166,37 +163,6 @@ const SignUp = () => {
     const keyboardWillHide = () => {
         setMargin(0);
     };
-
-    const Header = () => {
-        return (
-
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation?.goBack?.()} >
-                    <Image
-                        source={backArrow}
-                        style={styles.backArrow}
-                    />
-                </TouchableOpacity>
-
-                <View style={styles.rightIcon}>
-
-                    <Image
-                        source={bellIcon}
-                        style={styles.bellIcon}
-                    />
-                    <View style={styles.notificationCount}
-                    >
-                        <Text style={styles.notificationCountText} >1</Text>
-
-
-                    </View>
-
-                </View>
-            </View>
-
-        )
-    }
-
 
     const hideDatePicker = () => {
         setDateTimePickerVisibility(false);
@@ -286,7 +252,6 @@ const SignUp = () => {
             phonecountry: country,
             phone: Number(phoneNumber),
             email,
-            gender,
             birthDate: dob,
             password,
             adress: address,
@@ -325,7 +290,7 @@ const SignUp = () => {
                             pickerItems={[
                                 { label: "PT", value: "351" },
                             ]}
-                            customStyles={{ marginTop: 20 }}
+                            customStyles={{  }}
                         />
 
                         <GymTextInput
@@ -355,57 +320,19 @@ const SignUp = () => {
                         }}
                     >
 
-                        <Text style={[styles.dob, { flex: 0.3 }]} >{"Gender"}</Text>
-                        <View
-                            style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                flex: 0.7
-                            }}
-                        >
-                            <TouchableOpacity
-                                onPress={() => setGender("m")}
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    flex: 0.5
-                                }}
-                            >
-                                <Icon
-                                    name={gender == "m" ? "dot-circle-o" : "circle-o"}
-                                    size={28}
-                                    color={COLOR_GYM_RED}
-                                />
-                                <Text style={[styles.dob, { marginLeft: 8 }]} >{"Male"}</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                onPress={() => setGender("f")}
-                                style={{
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                }}
-                            >
-                                <Icon
-                                    name={gender == "f" ? "dot-circle-o" : "circle-o"}
-                                    size={28}
-                                    color={COLOR_GYM_RED}
-                                />
-                                <Text style={[styles.dob, { marginLeft: 8 }]} >{"Female"}</Text>
-                            </TouchableOpacity>
-                        </View>
+                        
 
                     </View>
 
                     <View
                         style={{
                             flexDirection: "row",
-                            marginTop: 40,
+                            marginTop: 20,
                             alignItems: "center"
                         }}
                     >
 
-                        <Text style={styles.dob} >{"Date of birth"}</Text>
+                        <Text style={styles.dob} >{"Date of birth:"}</Text>
 
                         <TouchableOpacity
                             style={styles.dobSelector}
@@ -435,6 +362,7 @@ const SignUp = () => {
                     <GymTextInput
                         placeholder={"Password"}
                         required
+                        customStyles={{ top: 10 }}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
                         secured={true}
@@ -442,6 +370,7 @@ const SignUp = () => {
                     <GymTextInput
                         placeholder={"Re-enter Password"}
                         required
+                        customStyles={{ top: 20 }}
                         value={cPassword}
                         onChangeText={(text) => setCPassword(text)}
                         secured={true}
@@ -449,6 +378,7 @@ const SignUp = () => {
                     <GymTextInput
                         placeholder={"Address"}
                         required
+                        customStyles={{ top: 30 }}
                         value={address}
                         onChangeText={(text) => setAddress(text)}
                     />
@@ -478,7 +408,7 @@ const SignUp = () => {
                             { label: "Beja", value: "18" },
                         ]}
                         customStyles={{
-                            marginTop: 20,
+                            top: 40,
                             marginLeft: Sizing(isIOS ? -16 : -6),
                             alignSelf: "stretch",
                         }}
@@ -593,7 +523,7 @@ const styles = StyleSheet.create({
 
     registerBtn: {
         marginBottom: Sizing(20),
-        marginTop: Sizing(30),
+        marginTop: Sizing(70),
         backgroundColor: COLOR_GYM_RED,
         borderRadius: 30,
         height: 50,

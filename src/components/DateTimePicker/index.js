@@ -28,7 +28,6 @@ const DateTimePicker = ({ isDatePickerVisible, handleConfirm, hideDatePicker, da
                     justifyContent: 'flex-end',
                     paddingBottom: 40,
                     marginHorizontal: 10
-
                 }}
             >
 

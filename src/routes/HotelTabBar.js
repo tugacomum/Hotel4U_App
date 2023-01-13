@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
             height: -3,
         },
         shadowOpacity: .15
-
     },
 
     tabBarItem: {

@@ -1,28 +1,35 @@
-import { SafeAreaView, Text, View, StyleSheet, ActivityIndicator } from "react-native";
+import { SafeAreaView, Text, View, StyleSheet } from "react-native";
 import COLORS from "../../consts/colors";
 import React, { useState, useEffect } from "react";
 import HotelList from '../../components/HotelList';
+import { Loader } from "../../components/Loader";
+import { api } from "../../services/api";
 
 export default function HotelsScreen() {
-    const [hotels, setHotels] = useState();
-    async function getHotelsData() {
-        try {
-            const getMethod = {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8'
-                },
-            }
-            const res = await fetch('https://hotel4u.onrender.com/hotels', getMethod).then(r => r.json());
-            setHotels(res);
-            console.log(hotels)
-        } catch (err) {
-            console.log(err);
-        }
+    const [isLoadingDone, setLoadingDone] = useState(false);
+  const [data, setData] = useState([]);
+  async function getData() { 
+    try {
+      const response = await api.get('hotels').then(r => r.data);
+      setData(response)
+    } catch (err) {
+      console.log("Err: " + err)
+    } finally {
+      setTimeout(()=> {
+        setLoadingDone(true);
+      }, 500);
     }
-    useEffect(() => {
-        getHotelsData()
-    })
+  }
+  useEffect(()=>{
+    getData();
+  }, [])
+  if (!isLoadingDone) {
+    return (
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+            <Loader size="large" />
+        </View>
+    )
+  } else {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
             <View style={style.header}>
@@ -36,10 +43,10 @@ export default function HotelsScreen() {
                 </View>
             </View>
             {
-                hotels.map(item => <HotelList data={item} />)
+                data.length > 0 ? data.map(item => { return(<HotelList item={item} />) }) : null
             }
         </SafeAreaView>
-    )
+    )}
 }
 
 const style = StyleSheet.create({

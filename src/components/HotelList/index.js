@@ -3,13 +3,11 @@ import React from 'react'
 
 const HotelList = ({ item }) => {
   return (
-    <ScrollView>
-        <View>
-            <Text>
-                
-            </Text>
-        </View>
-    </ScrollView>
+    <View>
+      <Text style={{ color: 'black'}}>
+        {item.name} {item.image} {item.description} {item.rating_avg}
+      </Text>
+    </View>
   )
 }
 

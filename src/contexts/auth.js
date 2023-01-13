@@ -10,15 +10,14 @@ export function AuthProvider({ children }) {
         checkToken()
     }, [])
     const [user, setUser] = useState(null);
-    async function signIn({ login, password }) {
+    async function signIn({ username, password, isChecked }) {
         try {
-            const { token, user } = await api.post('/login', {
-                login,
+            const { token, user } = await api.post('login', {
+                username,
                 password
             }).then(r => r.data);
-            api.defaults.headers['authorization'] = `Bearer ${token}`;
-            AsyncStorage.setItem('@hotel4u:token', token);
-            console.log(token);
+            api.defaults.headers['authorization'] = `${token}`;
+            if (isChecked == true) AsyncStorage.setItem('@hotel4u:token', token);
             setUser(user);
         } catch (err) {
             Alert.alert("Erro", err.response.data.message);
@@ -27,19 +26,17 @@ export function AuthProvider({ children }) {
 
     async function checkToken() {
         const token = await AsyncStorage.getItem('@hotel4u:token');
-        console.log(token);
         if (token) {
-            api.defaults.headers['authorization'] = `Bearer ${token}`;
-            const user = await api.get('profile').then(r => r.data);
-            
+            api.defaults.headers['authorization'] = `${token}`;
+            const user = await api.get('getprofile').then(r => r.data);
             setUser(user);
         }
-        
     }
 
     function logout() {
+        delete AsyncStorage.removeItem('@hotel4u:token');
+        delete api.defaults.headers.delete['authorization'];
         setUser(null);
-        delete api.defaults.headers['authorization'];
     }
 
     return (
