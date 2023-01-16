@@ -2,23 +2,21 @@ import { View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Loader } from '../../components/Loader';
 import { useAuth } from '../../contexts/auth'
-import { Button } from 'native-base';
 import COLORS from '../../consts/colors';
 import { Appearance } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import Imagem from '../../assets/icon.png';
+import { api } from '../../services/api';
+import { isIOS } from '../../helper';
 
-export default function User({ navigation, route }) {
-
-    const item = route.params;
+export default function User() {
     const [isLoadingDone, setLoadingDone] = useState(false);
     const [data, setData] = useState([]);
     const { user, logout } = useAuth();
     const [color, setColor] = useState('light');
+
     useEffect(() => {
         Appearance.addChangeListener(({ colorScheme }) => { setColor(colorScheme) });
     })
-    const [fav, setFav] = useState(false);
     async function getData() {
         try {
             const response = await api.get('hotels').then(r => r.data);
@@ -27,7 +25,6 @@ export default function User({ navigation, route }) {
             console.log("Err: " + err)
         } finally {
             setTimeout(() => {
-                console.log(data)
                 setLoadingDone(true);
             }, 500);
         }
@@ -52,23 +49,17 @@ export default function User({ navigation, route }) {
                     marginHorizontal: 20,
                     justifyContent: 'space-between'
                 }}>
-                    <Icon
-                        name="arrow-back-ios"
-                        size={28}
-                        color={color === 'dark' ? COLORS.white : COLORS.dark}
-                        onPress={navigation.goBack}
-                    />
                 </View>
 
-                <View style={{ borderRadius: '100%', width: 120, height: 120, backgroundColor: COLORS.primary, justifyContent: 'center', alignSelf: 'center' }}>
-                    <View style={{ borderRadius: '100%', width: 110, height: 110, backgroundColor: color === 'dark' ? COLORS.darkgrey : COLORS.light, justifyContent: 'center', alignSelf: 'center' }}>
+                <View style={{ borderRadius: isIOS ? '100%' : 60, width: 120, height: 120, backgroundColor: COLORS.primary, justifyContent: 'center', alignSelf: 'center' }}>
+                    <View style={{ borderRadius: isIOS ? '100%' : 60, width: 110, height: 110, backgroundColor: color === 'dark' ? COLORS.darkgrey : COLORS.light, justifyContent: 'center', alignSelf: 'center' }}>
                         <Image source={Imagem} style={{ width: 103, height: 103, borderRadius: 40, alignSelf: 'center' }} />
                     </View>
                 </View>
                 <View style={{ flex: 1, backgroundColor: COLORS.primary, borderTopLeftRadius: 40, borderTopRightRadius: 40, marginTop: '10%' }}>
                     <View style={{flex: 1, alignSelf:'center', top: 10}}>
                         <Text style={{fontSize: 20, fontWeight:'bold', color: COLORS.white}}>
-                            Bem Vindo, <Text style={{color: COLORS.darkgrey, fontSize: 26}}>Username</Text>
+                            Bem Vindo, <Text style={{color: COLORS.dark, fontSize: 26}}>{user.username}</Text>
                         </Text>
                     </View>
                     <TouchableOpacity onPress={() => logout()}>
@@ -77,7 +68,6 @@ export default function User({ navigation, route }) {
                         </View>
                     </TouchableOpacity>
                 </View>
-
             </SafeAreaView>
         )
     }

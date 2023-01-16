@@ -7,6 +7,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import SignUp from '../views/auth/signup';
 import SignIn from '../views/auth/signin';
+import OTPScreen from "../views/auth/OTPScreen";
+import ForgotPassword from "../views/auth/ForgotPassword";
 
 import OnBoarding from '../views/onBoarding/WelcomePage';
 import FirstPage from '../views/onBoarding/FirstPage';
@@ -97,6 +99,14 @@ export default function AuthRoutes() {
                 <AuthStack.Screen
                     name="SignUp"
                     component={SignUp}
+                />
+                <AuthStack.Screen
+                    name="OTPScreen"
+                    component={OTPScreen}
+                />
+                <AuthStack.Screen
+                    name="ForgotPassword"
+                    component={ForgotPassword}
                 />
             </AuthStack.Navigator>
         </>

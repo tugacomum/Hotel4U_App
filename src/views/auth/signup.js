@@ -10,24 +10,21 @@ import {
     ScrollView,
     Keyboard,
 } from 'react-native';
+import { Alert } from 'react-native';
+import { api } from '../../services/api';
 import moment from "moment";
-import { useNavigation } from "@react-navigation/native"
-import Icon from "react-native-vector-icons/FontAwesome";
 
 import validator from "validator";
-import { showMessage } from "react-native-flash-message";
+import { showMessage } from 'react-native-flash-message';
 
 import { Label, Item, Input, Picker } from 'native-base';
-
-
-import { useAuth } from '../../contexts/auth';
 
 import DateTimePicker from "../../components/DateTimePicker"
 import { Sizing } from '../../helper/sizing'
 import { isIOS } from "../../helper"
 import { Dimensions } from 'react-native';
 
-import { backArrow, bellIcon, calendarIcon } from "../../assets/"
+import { calendarIcon } from "../../assets/"
 
 import COLORS from '../../consts/colors';
 
@@ -123,11 +120,7 @@ const GymPicker = ({
 const today = new Date();
 
 
-const SignUp = () => {
-
-    const navigation = useNavigation();
-
-    const { register } = useAuth();
+const SignUp = ({ route, navigation }) => {
 
     const [username, setUsername] = useState("");
     const [country, setCountry] = useState("");
@@ -173,9 +166,7 @@ const SignUp = () => {
         setDateTimePickerVisibility(false);
         setDob(date);
     };
-
-    const startRegisteration = () => {
-
+    async function registerFunction(){
         if (validator.isEmpty(username)) {
             showMessage({
                 type: "danger",
@@ -245,19 +236,13 @@ const SignUp = () => {
             });
             return
         }
-
-
-        register({
-            username,
-            phonecountry: country,
-            phone: Number(phoneNumber),
-            email,
-            birthDate: dob,
-            password,
-            adress: address,
-            location
-        });
-
+        try {
+            await api.post('user', ({ username, email, password }))
+        } catch (err) {
+            Alert.alert('Erro', err.response.data.message)
+        } finally {
+            navigation.navigate('OTPScreen', { username })
+        }
     }
 
 
@@ -427,9 +412,7 @@ const SignUp = () => {
 
                 <TouchableOpacity
                     style={styles.registerBtn}
-                    onPress={() => {
-                        startRegisteration();
-                    }}
+                    onPress={() => registerFunction()}
                 >
                     <Text
                         style={styles.registerBtnText}

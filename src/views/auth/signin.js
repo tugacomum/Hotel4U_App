@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, Dimensions, TouchableOpacity, Alert, Pressable } from 'react-native';
+import { View, Text, ScrollView, Image, Dimensions, TouchableOpacity, Alert, Pressable, StyleSheet } from 'react-native';
 import { Label, Item, Input } from 'native-base';
 import Checkbox from 'expo-checkbox';
 import { useState } from 'react';
@@ -43,7 +43,7 @@ export default function signin() {
     <ScrollView
       style={{ flex: 1, backgroundColor: '#ffffff' }}
       showsVerticalScrollIndicator={false}>
-      <View style={{ padding: 40, top: 40 }}>
+      <View style={{ padding: 40, top: 100 }}>
         <Image source={require('../../../assets/icon2.png')} style={{ alignSelf: 'center' }} />
         <View style={{ marginTop: 30 }}>
           <Image source={require('../../assets/user3.png')} style={{ top: 44, tintColor: COLORS.dark, width: 27, height: 27 }} />
@@ -68,7 +68,7 @@ export default function signin() {
             onValueChange={setChecked}
             color={isChecked ? COLORS.primary : undefined} />
           <Text style={{ color: '#383838', top: 22, fontSize: 15, fontStyle: 'normal', right: 8 }}>Remember me</Text>
-          <Text style={{ color: COLORS.primary, textAlign: 'right', fontSize: 15, top: 22, fontStyle: 'normal', flex: 1 }}>Forgot password?</Text>
+          <Text onPress={() => navigation.navigate('ForgotPassword')} style={{ color: COLORS.primary, textAlign: 'right', fontSize: 15, top: 22, fontStyle: 'normal', flex: 1 }}>Forgot password?</Text>
         </View>
         <TouchableOpacity onPress={handleLogin} style={{ borderWidth: 1, borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary, width: Dimensions.get('window').width / 1.2, top: 60, alignSelf: 'center', justifyContent: 'center', height: 50 }}>
           <Text style={{ color: 'white', fontWeight: '500', fontSize: 17, fontStyle: 'normal', alignSelf: 'center' }}>Log in</Text>
@@ -81,8 +81,78 @@ export default function signin() {
         >
           <Text style={{ fontStyle: 'normal', alignSelf: 'center', fontSize: 15, lineHeight: 19.92, marginTop: 40 }}>Don't have an account?<Text style={{ fontWeight: '700', fontStyle: 'normal' }} > Register!</Text></Text>
         </TouchableOpacity>
-        <View style={{ height: 200 }} />
+        <View style={{ height: 120 }} />
       </View>
     </ScrollView>
   );
 }
+
+const style = StyleSheet.create({
+  header: {
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    textAlign: 'center',
+    paddingHorizontal: 20,
+  },
+  searchInputContainer: {
+    height: 50,
+    backgroundColor: COLORS.light,
+    marginTop: 15,
+    marginLeft: 20,
+    marginRight: 20,
+    borderRadius: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  categoryListContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginHorizontal: 20,
+    marginTop: 30,
+  },
+  categoryListText: {
+    fontWeight: 'bold',
+  },
+  cardImage: {
+    height: 200,
+    width: '100%',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  priceTag: {
+    height: 60,
+    width: 80,
+    backgroundColor: COLORS.primary,
+    position: 'absolute',
+    zIndex: 1,
+    right: 0,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardDetails: {
+    height: 100,
+    borderRadius: 15,
+    backgroundColor: COLORS.white,
+    position: 'absolute',
+    bottom: 0,
+    padding: 20,
+    width: '100%',
+  },
+  topHotelCard: {
+    height: 120,
+    width: 120,
+    backgroundColor: COLORS.white,
+    elevation: 15,
+    marginHorizontal: 10,
+    borderRadius: 10,
+  },
+  topHotelCardImage: {
+    height: 80,
+    width: '100%',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+  },
+});

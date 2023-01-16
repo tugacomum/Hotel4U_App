@@ -1,24 +1,12 @@
-import { Dimensions,
-  FlatList,
+import { 
   SafeAreaView,
-  ScrollView,
-  StyleSheet,
   Text,
-  TextInput,
-  TouchableOpacity,
   View,
-  Image,
-  Animated,
-  LogBox, Appearance } from 'react-native'
+  Appearance } from 'react-native'
 import React, { useEffect, useState } from 'react'
-const { width } = Dimensions.get('screen');
-const cardWidth = width / 1.8;
 import { Loader } from '../../components/Loader';
 import { api } from '../../services/api';
 import COLORS from '../../consts/colors'
-import hotels from '../../consts/hotels';
-
-LogBox.ignoreAllLogs();
 
 const FavouriteScreen = () => {
   const [isLoadingDone, setLoadingDone] = useState(false);
