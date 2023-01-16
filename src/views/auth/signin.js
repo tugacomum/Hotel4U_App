@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 import COLORS from '../../consts/colors';
 import { useAuth } from '../../contexts/auth';
 import { useTogglePasswordVisibility } from '../../hooks/useTogglePasswordVisibility';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 let teste;
 
@@ -14,11 +13,11 @@ export default function signin() {
   const { passwordVisibility, icon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
 
-    if(icon === 'eye') {
-      teste = require('../../assets/eye-off.png')
-    } else {
-      teste = require('../../assets/eye.png')
-    }
+  if (icon === 'eye') {
+    teste = require('../../assets/eye-off.png')
+  } else {
+    teste = require('../../assets/eye.png')
+  }
 
   const [isChecked, setChecked] = useState(false);
   const [username, setUsername] = useState('');
@@ -47,18 +46,18 @@ export default function signin() {
       <View style={{ padding: 40, top: 40 }}>
         <Image source={require('../../../assets/icon2.png')} style={{ alignSelf: 'center' }} />
         <View style={{ marginTop: 30 }}>
-          <Image source={require('../../assets/user.png')} style={{ top: 44, right: 4, tintColor: COLORS.dark }} />
-          <Item floatingLabel style={{ borderColor: '#A1A1A1', width: Dimensions.get('window').width / 1.15, alignSelf: 'center' }}>
-            <Label style={{ top: -8, left: 55, color: '#383838', fontStyle: 'normal', fontSize: 15 }}>Username</Label>
-            <Input enablesReturnKeyAutomatically autoCapitalize='none' autoComplete='off' keyboardType='email-address' style={{ paddingLeft: 55 }} value={username} onChangeText={(text) => setUsername(text)} />
+          <Image source={require('../../assets/user3.png')} style={{ top: 44, tintColor: COLORS.dark, width: 27, height: 27 }} />
+          <Item floatingLabel style={{ borderColor: '#A1A1A1', width: Dimensions.get('window').width / 1.6, alignSelf: 'center', left: 5 }}>
+            <Label style={{ top: -8, left: 5, color: '#383838', fontStyle: 'normal', fontSize: 15 }}>Username</Label>
+            <Input enablesReturnKeyAutomatically autoCapitalize='none' autoComplete='off' keyboardType='default' style={{ paddingLeft: 5 }} value={username} onChangeText={(text) => setUsername(text)} />
           </Item>
-          <View>
-              <Icon onPress={handlePasswordVisibility} style={{ top: 54, right: 1, tintColor: COLORS.dark, width: 27, height: 26 }} />
-            <Item floatingLabel style={{ borderColor: '#A1A1A1', marginTop: 10, width: Dimensions.get('window').width / 1.15, alignSelf: 'center' }}>
-              <Label style={{ top: -8, left: 55, color: '#383838', fontStyle: 'normal', fontSize: 15 }}>Password</Label>
-              <Input enablesReturnKeyAutomatically autoCapitalize='none' autoComplete='off' secureTextEntry={passwordVisibility} style={{ paddingLeft: 55 }} value={password} onChangeText={(text) => setPassword(text)} />
-            </Item>
-          </View>
+          <Pressable onPress={handlePasswordVisibility} style={{ top: 54, width: 27, height: 27, right: 2 }}>
+            <Image source={teste} style={{ tintColor: COLORS.dark, width: 30, height: 30 }} />
+          </Pressable>
+          <Item floatingLabel style={{ borderColor: '#A1A1A1', marginTop: 10, width: Dimensions.get('window').width / 1.6, alignSelf: 'center', left: 5 }}>
+            <Label style={{ top: -8, color: '#383838', fontStyle: 'normal', fontSize: 15, left: 4 }}>Password</Label>
+            <Input enablesReturnKeyAutomatically autoCapitalize='none' autoComplete='off' secureTextEntry={passwordVisibility} value={password} onChangeText={(text) => setPassword(text)} />
+          </Item>
         </View>
         <View style={{ flexDirection: 'row', flex: 1 }}>
           <Checkbox
