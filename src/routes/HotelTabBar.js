@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
-
+import React, { useState, useEffect } from 'react'
+import { Appearance } from 'react-native'
 import { tabHome, tabFavourites, tabProfile } from '../assets'
 
 import { Sizing } from '../helper/sizing'
@@ -25,9 +25,25 @@ const TAB_BAR_ITEMS = [
 ]
 
 export default function MyTabBar({ navigation }) {
-    const [selectedTabIndex, setSelectedTabIndex] = React.useState(0)
+    const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
+    const [color, setColor] = useState('light');
+  useEffect(() =>{
+      Appearance.addChangeListener(({colorScheme}) =>{setColor(colorScheme)});
+  })
     return (
-        <View style={styles.tabBarHeight} >
+        <View style={{flexDirection: "row",
+        height: Sizing(54),
+        backgroundColor: color === 'dark' ? COLORS.darkgrey : COLORS.light,
+        shadowColor: "#000000",
+
+        shadowOpacity: 0.21,
+        shadowRadius: 11,
+        elevation: 9,
+        shadowOffset: {
+            width: 0,
+            height: -3,
+        },
+        shadowOpacity: .15}} >
             {
                 TAB_BAR_ITEMS.map((item, index) => {
                     return (
@@ -39,7 +55,7 @@ export default function MyTabBar({ navigation }) {
                                 setSelectedTabIndex(index)}}>
                             <Image
                                 source={item.icon}
-                                style={[styles.tabIcon, index == selectedTabIndex && { tintColor: COLORS.primary }]}
+                                style={[styles.tabIcon, {tintColor: color === 'dark' ? COLORS.light : COLORS.dark}, index == selectedTabIndex && { tintColor: COLORS.primary }]}
                                 resizeMode="contain" />
                         </TouchableOpacity>
                     )
@@ -50,22 +66,6 @@ export default function MyTabBar({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    tabBarHeight: {
-        flexDirection: "row",
-        height: Sizing(54),
-        backgroundColor: "#fff",
-        shadowColor: "#000000",
-
-        shadowOpacity: 0.21,
-        shadowRadius: 11,
-        elevation: 9,
-        shadowOffset: {
-            width: 0,
-            height: -3,
-        },
-        shadowOpacity: .15
-    },
-
     tabBarItem: {
         flex: 1,
         justifyContent: "center",

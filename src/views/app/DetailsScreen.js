@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   ImageBackground,
   ScrollView,
@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import COLORS from '../../consts/colors';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Appearance } from 'react-native';
 
 const DetailsScreen = ({navigation, route}) => {
   const item = route.params;
@@ -15,12 +16,16 @@ const DetailsScreen = ({navigation, route}) => {
   const handleClick = () => {
     setFav(!fav);
   };
+  const [color, setColor] = useState('light');
+    useEffect(() => {
+        Appearance.addChangeListener(({ colorScheme }) => { setColor(colorScheme) });
+    })
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{
-        backgroundColor: COLORS.white,
-        paddingBottom: 20,
+        backgroundColor: color === 'dark' ? COLORS.darkgrey : COLORS.light,
+        flex:1
       }}>
       
       <ImageBackground style={style.headerImage} source={item.image}>
@@ -39,13 +44,14 @@ const DetailsScreen = ({navigation, route}) => {
           <Icon name="place" color={COLORS.white} size={28} />
         </View>
         <View style={{marginTop: 20, paddingHorizontal: 20}}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>{item.name}</Text>
+          <Text style={{fontSize: 20, fontWeight: 'bold', color: color === 'dark' ? COLORS.white : COLORS.dark}}>{item.name}</Text>
           <Text
             style={{
               fontSize: 12,
               fontWeight: '400',
               color: COLORS.grey,
               marginTop: 5,
+              color: color === 'dark' ? COLORS.white : COLORS.dark
             }}>
             {item.location}
           </Text>
@@ -63,7 +69,7 @@ const DetailsScreen = ({navigation, route}) => {
                 <Icon name="star" size={20} color={COLORS.orange} />
                 <Icon name="star" size={20} color={COLORS.grey} />
               </View>
-              <Text style={{fontWeight: 'bold', fontSize: 18, marginLeft: 5}}>
+              <Text style={{fontWeight: 'bold', fontSize: 18, marginLeft: 5, color: color === 'dark' ? COLORS.white : COLORS.dark}}>
                 4.0
               </Text>
             </View>
@@ -83,7 +89,7 @@ const DetailsScreen = ({navigation, route}) => {
             paddingLeft: 20,
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+          <Text style={{fontSize: 20, fontWeight: 'bold', color: color === 'dark' ? COLORS.white : COLORS.dark}}>
             Price per night
           </Text>
           <View style={style.priceTag}>

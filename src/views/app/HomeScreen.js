@@ -18,6 +18,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import COLORS from '../../consts/colors';
 import hotels from '../../consts/hotels';
+import { Appearance } from 'react-native';
 const { width } = Dimensions.get('screen');
 const cardWidth = width / 1.8;
 
@@ -28,6 +29,10 @@ const HomeScreen = ({ navigation }) => {
   const [selectedCategoryIndex, setSelectedCategoryIndex] = React.useState(0);
   const [activeCardIndex, setActiveCardIndex] = React.useState(0);
   const scrollX = React.useRef(new Animated.Value(0)).current;
+  const [color, setColor] = useState('light');
+  useEffect(() =>{
+      Appearance.addChangeListener(({colorScheme}) =>{setColor(colorScheme)});
+  })
 
   const CategoryList = () => {
     return (
@@ -181,21 +186,21 @@ const HomeScreen = ({ navigation }) => {
     )
   } else {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: color === 'dark' ? COLORS.darkgrey : COLORS.white }}>
         <View style={style.header}>
           <View style={{ paddingBottom: 15 }}>
-            <Text style={{ fontSize: 30, fontWeight: 'bold' }}>
+            <Text style={{ fontSize: 30, fontWeight: 'bold', color: color === 'dark' ? COLORS.white : COLORS.dark }}>
               Find your hotel
             </Text>
             <View style={{ flexDirection: 'row' }}>
-              <Text style={{ fontSize: 30, fontWeight: 'bold' }}>in </Text>
+              <Text style={{ fontSize: 30, fontWeight: 'bold', color: color === 'dark' ? COLORS.white : COLORS.dark }}>in </Text>
               <Text
                 style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.primary }}>
                 Portugal
               </Text>
             </View>
           </View>
-          <Image source={require('../../assets/icon.png')} color={COLORS.dark} style={{
+          <Image source= {color === 'dark' ?  require('../../assets/iconwhite.png'): require('../../assets/icon.png')} color={COLORS.dark} style={{
             width: 70.03,
             height: 69.14,
             marginRight: 5,
@@ -206,7 +211,7 @@ const HomeScreen = ({ navigation }) => {
           <View style={style.searchInputContainer}>
             <Icon name="search" size={30} style={{ marginLeft: 20 }} />
             <TextInput
-              placeholder="Search"
+              placeholder="Search" placeholderTextColor={COLORS.primary}
               style={{ fontSize: 20, paddingLeft: 10 }}
             />
           </View>

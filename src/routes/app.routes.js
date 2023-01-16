@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-native-gesture-handler';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -14,6 +14,8 @@ import User from '../views/app/UserScreen';
 import Favourite from '../views/app/FavouriteScreen'
 
 import HotelTabBar from './HotelTabBar';
+
+import { Appearance } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,6 +43,7 @@ export default function AppRoutes() {
     if (!AppLoading) {
         return <AppLoading />;
     }
+    
     return (
         <>
         <StatusBar barStyle='dark-content' />
@@ -50,6 +53,8 @@ export default function AppRoutes() {
           <Tab.Screen name="FavouriteScreen" component={Favourite} />
           <Tab.Screen name="DetailsScreen" component={Details} />
           <Tab.Screen name="HotelsScreen" component={Hotels} />
+          <Tab.Screen name="OTPScreen" component={OTPScreen} />
+          <Tab.Screen name="RecoverPasswordScreen" component={RecoverPassword} />
         </Tab.Navigator>
       </> 
     )

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import 'react-native-gesture-handler';
 import { StatusBar } from 'react-native';
 import COLORS from './src/consts/colors';
