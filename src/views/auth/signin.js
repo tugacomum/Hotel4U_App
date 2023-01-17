@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import COLORS from '../../consts/colors';
 import { useAuth } from '../../contexts/auth';
 import { useTogglePasswordVisibility } from '../../hooks/useTogglePasswordVisibility';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+import validator from 'validator';
 
 let teste;
 
@@ -26,15 +28,26 @@ export default function signin() {
   const { signIn } = useAuth();
 
   function handleLogin() {
-    try {
-      if (username == '' || username == null || username == undefined || password == '' || password == null || password == undefined) {
-        Alert.alert("Error", "Missing username or password field!")
-        return
-      }
-      return signIn({ username, password, isChecked });
-    } catch (err) {
-      console.log("Error: " + err)
+    if (validator.isEmpty(username)) {
+      showMessage({
+        type: "danger",
+        message: "Username field missing!",
+      });
+      return
     }
+
+    if (validator.isEmpty(password)) {
+      showMessage({
+        type: "danger",
+        message: "Password field missing!",
+      });
+      return
+    }
+    signIn({
+      username,
+      password,
+      isChecked
+    });
   }
 
   const navigation = useNavigation();
@@ -43,6 +56,7 @@ export default function signin() {
     <ScrollView
       style={{ flex: 1, backgroundColor: '#ffffff' }}
       showsVerticalScrollIndicator={false}>
+      <FlashMessage />
       <View style={{ padding: 40, top: 100 }}>
         <Image source={require('../../../assets/icon2.png')} style={{ alignSelf: 'center' }} />
         <View style={{ marginTop: 30 }}>

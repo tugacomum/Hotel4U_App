@@ -48,9 +48,8 @@ export default function User() {
                     alignItems: 'center',
                     marginHorizontal: 20,
                     justifyContent: 'space-between'
-                }}>
-                </View>
-
+                    }}>
+                    </View>
                 <View style={{ borderRadius: isIOS ? '100%' : 60, width: 120, height: 120, backgroundColor: COLORS.primary, justifyContent: 'center', alignSelf: 'center' }}>
                     <View style={{ borderRadius: isIOS ? '100%' : 60, width: 110, height: 110, backgroundColor: color === 'dark' ? COLORS.darkgrey : COLORS.light, justifyContent: 'center', alignSelf: 'center' }}>
                         <Image source={Imagem} style={{ width: 103, height: 103, borderRadius: 40, alignSelf: 'center' }} />
@@ -64,7 +63,7 @@ export default function User() {
                     </View>
                     <TouchableOpacity onPress={() => logout()}>
                         <View style={{ display: 'flex', alignContent: 'center', alignSelf: 'center', height: 55, justifyContent: 'center', alignItems: 'center', marginTop: 40, backgroundColor: COLORS.light, marginHorizontal: 20, borderRadius: 10, padding: 10, borderWidth: 1, borderColor: COLORS.secondary, marginBottom: 10 }}>
-                            <Text style={{ fontWeight: 'bold', color: 'dark' }}>LOGOUT HERE</Text>
+                            <Text style={{ fontWeight: 'bold', color: COLORS.dark }}>LOGOUT HERE</Text>
                         </View>
                     </TouchableOpacity>
                 </View>

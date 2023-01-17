@@ -1,7 +1,7 @@
 import AuthRoutes from './auth.routes';
 import AppRoutes from '../routes/app.routes';
 import { useAuth } from '../contexts/auth';
-import { NavigationContainer } from '@react-navigation/native';
+import FlashMessage from 'react-native-flash-message';
 
 import { View } from 'react-native'
 import React, { useEffect, useState } from 'react'
@@ -32,9 +32,11 @@ export default function Routes() {
         )
     } else {
         return (
-            <NavigationContainer>
-                {!user ? <AuthRoutes /> : <AppRoutes />}
-            </NavigationContainer>
+            <>            
+            {!user ? <AuthRoutes /> : <AppRoutes />}
+            
+            <FlashMessage position="top" />
+        </>
         );
     }
 }

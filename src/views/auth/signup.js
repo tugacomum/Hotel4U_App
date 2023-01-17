@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'react-native';
 import {
     View,
     Text,
@@ -10,12 +9,10 @@ import {
     ScrollView,
     Keyboard,
 } from 'react-native';
-import { Alert } from 'react-native';
-import { api } from '../../services/api';
 import moment from "moment";
 
 import validator from "validator";
-import { showMessage } from 'react-native-flash-message';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
 
 import { Label, Item, Input, Picker } from 'native-base';
 
@@ -28,14 +25,18 @@ import { calendarIcon } from "../../assets/"
 
 import COLORS from '../../consts/colors';
 
-const COLOR_GYM_RED = COLORS.primary
+import { useAuth } from '../../contexts/auth';
 
-const GymTextInput = ({
-    keyboardType = "default",
+const COLOR_HOTEL_RED = COLORS.primary
+
+const HotelTextInput = ({
     placeholder,
     value,
     onChangeText,
     required,
+    autoCapitalize,
+    autoComplete,
+    keyboardType,
     secured = false,
     customStyles = {}
 }) => {
@@ -47,14 +48,14 @@ const GymTextInput = ({
         <Item
             floatingLabel
             style={{
-                borderColor: isFocused ? COLOR_GYM_RED : '#A1A1A1',
+                borderColor: isFocused ? COLOR_HOTEL_RED : '#A1A1A1',
                 marginTop: 20,
                 ...customStyles
             }}
         >
             <Label
                 style={{
-                    color: isFocused ? COLOR_GYM_RED : '#383838',
+                    color: isFocused ? COLOR_HOTEL_RED : '#383838',
                     fontStyle: 'normal',
                     fontSize: 16
                 }}
@@ -62,13 +63,15 @@ const GymTextInput = ({
                 {`${placeholder}${required ? " *" : ""}`}
             </Label>
             <Input
+                autoCapitalize={autoCapitalize}
+                autoComplete={autoComplete}
                 keyboardType={keyboardType}
                 placeholder={`${placeholder}${required ? " *" : ""}`}
                 value={value}
                 onChangeText={onChangeText}
 
                 style={{
-                    color: COLOR_GYM_RED,
+                    color: COLOR_HOTEL_RED,
                 }}
                 secureTextEntry={secured}
                 underlineColorAndroid={"transparent"}
@@ -80,7 +83,7 @@ const GymTextInput = ({
     )
 }
 
-const GymPicker = ({
+const HotelPicker = ({
     placeholder,
     value,
     onChangeText,
@@ -120,18 +123,18 @@ const GymPicker = ({
 const today = new Date();
 
 
-const SignUp = ({ route, navigation }) => {
+const SignUp = ({ navigation }) => {
+    const { register } = useAuth();
 
     const [username, setUsername] = useState("");
     const [country, setCountry] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [phone_number, setPhoneNumber] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [cPassword, setCPassword] = useState("");
-    const [address, setAddress] = useState("");
-    const [location, setLocation] = useState("");
+    const [adress, setAdress] = useState("");
 
-    const [dob, setDob] = useState(today);
+    const [birthDate, setBirthDate] = useState(today);
     const [dateTimePickerVisible, setDateTimePickerVisibility] = useState(false);
 
     const [margin, setMargin] = useState(0);
@@ -164,9 +167,9 @@ const SignUp = ({ route, navigation }) => {
     const handleConfirm = (date) => {
 
         setDateTimePickerVisibility(false);
-        setDob(date);
+        setBirthDate(date);
     };
-    async function registerFunction(){
+    async function registerFunction() {
         if (validator.isEmpty(username)) {
             showMessage({
                 type: "danger",
@@ -174,14 +177,8 @@ const SignUp = ({ route, navigation }) => {
             });
             return
         }
-        if (validator.isEmpty(country) || validator.equals(country, null)) {
-            showMessage({
-                type: "danger",
-                message: "Country field missing!",
-            });
-            return
-        }
-        if (validator.isEmpty(phoneNumber)) {
+
+        if (validator.isEmpty(phone_number)) {
             showMessage({
                 type: "danger",
                 message: "Phone-number field missing!",
@@ -221,7 +218,7 @@ const SignUp = ({ route, navigation }) => {
             return
         }
 
-        if (validator.isEmpty(address)) {
+        if (validator.isEmpty(adress)) {
             showMessage({
                 type: "danger",
                 message: "Adress field missing!",
@@ -229,32 +226,29 @@ const SignUp = ({ route, navigation }) => {
             return
         }
 
-        if (validator.isEmpty(location) || validator.equals(location, null)) {
-            showMessage({
-                type: "danger",
-                message: "Location field missing!",
-            });
-            return
-        }
-        try {
-            await api.post('user', ({ username, email, password }))
-        } catch (err) {
-            Alert.alert('Erro', err.response.data.message)
-        } finally {
-            navigation.navigate('OTPScreen', { username })
-        }
+        register({
+            navigation: navigation,
+            username,
+            phone_number: Number(phone_number),
+            email,
+            birthDate: birthDate,
+            password,
+            adress: adress
+        });
     }
 
 
     return (
         <SafeAreaView style={styles.safeArea}>
+            <FlashMessage />
             <ScrollView style={styles.mainView} >
                 <Text style={styles.title} >Register</Text>
 
                 <View
-                    style={{ marginBottom: margin }}
+                    style={{ marginBottom: margin, marginTop: 20 }}
                 >
-                    <GymTextInput
+                    <HotelTextInput
+                        autoCapitalize='none' autoComplete='off'
                         placeholder={"Username"}
                         required
                         value={username}
@@ -268,21 +262,21 @@ const SignUp = ({ route, navigation }) => {
                         marginLeft: Sizing(isIOS ? -16 : -6)
                     }}
                     >
-                        <GymPicker
+                        <HotelPicker
                             placeholder={"Country"}
                             value={country}
                             onChangeText={(text) => setCountry(text)}
                             pickerItems={[
                                 { label: "PT", value: "351" },
                             ]}
-                            customStyles={{  }}
+                            customStyles={{}}
                         />
 
-                        <GymTextInput
+                        <HotelTextInput
                             keyboardType='number-pad'
                             placeholder={"Phone number"}
                             required
-                            value={phoneNumber}
+                            value={phone_number}
                             onChangeText={(text) => setPhoneNumber(text)}
                             customStyles={{
                                 flex: 1
@@ -290,7 +284,8 @@ const SignUp = ({ route, navigation }) => {
                         />
                     </View>
 
-                    <GymTextInput
+                    <HotelTextInput
+                        autoCapitalize='none' autoComplete='off'
                         placeholder={"Email"}
                         required
                         value={email}
@@ -304,15 +299,12 @@ const SignUp = ({ route, navigation }) => {
                             alignItems: "center"
                         }}
                     >
-
-                        
-
                     </View>
 
                     <View
                         style={{
                             flexDirection: "row",
-                            marginTop: 20,
+                            marginTop: 10,
                             alignItems: "center"
                         }}
                     >
@@ -327,8 +319,8 @@ const SignUp = ({ route, navigation }) => {
                         >
 
                             <Text style={styles.dob} >
-                                {dob ?
-                                    moment(dob).format("MM-DD-YYYY")
+                                {birthDate ?
+                                    moment(birthDate).format("MM-DD-YYYY")
                                     :
                                     "Choose Date of birth"
                                 }
@@ -344,61 +336,32 @@ const SignUp = ({ route, navigation }) => {
                     </View>
 
 
-                    <GymTextInput
+                    <HotelTextInput
+                        autoCapitalize='none' autoComplete='off'
                         placeholder={"Password"}
                         required
-                        customStyles={{ top: 10 }}
+                        customStyles={{ top: 20 }}
                         value={password}
                         onChangeText={(text) => setPassword(text)}
                         secured={true}
                     />
-                    <GymTextInput
+                    <HotelTextInput
+                        autoCapitalize='none' autoComplete='off'
                         placeholder={"Re-enter Password"}
                         required
-                        customStyles={{ top: 20 }}
+                        customStyles={{ top: 35 }}
                         value={cPassword}
                         onChangeText={(text) => setCPassword(text)}
                         secured={true}
                     />
-                    <GymTextInput
-                        placeholder={"Address"}
+                    <HotelTextInput
+                        autoCapitalize='none' autoComplete='off'
+                        placeholder={"Adress"}
                         required
-                        customStyles={{ top: 30 }}
-                        value={address}
-                        onChangeText={(text) => setAddress(text)}
+                        customStyles={{ top: 50 }}
+                        value={adress}
+                        onChangeText={(text) => setAdress(text)}
                     />
-
-                    <GymPicker
-                        placeholder={"Location"}
-                        value={location}
-                        onChangeText={(text) => setLocation(text)}
-                        pickerItems={[
-                            { label: "Viseu", value: "1" },
-                            { label: "Aveiro", value: "2" },
-                            { label: "Braga", value: "3" },
-                            { label: "Bragança", value: "4" },
-                            { label: "Castelo Branco", value: "5" },
-                            { label: "Coimbra", value: "6" },
-                            { label: "Évora", value: "7" },
-                            { label: "Faro", value: "8" },
-                            { label: "Guarda", value: "9" },
-                            { label: "Leiria", value: "10" },
-                            { label: "Lisboa", value: "11" },
-                            { label: "Portalegre", value: "12" },
-                            { label: "Porto", value: "13" },
-                            { label: "Santarém", value: "14" },
-                            { label: "Setúbal", value: "15" },
-                            { label: "Viana do Castelo", value: "16" },
-                            { label: "Vila Real", value: "17" },
-                            { label: "Beja", value: "18" },
-                        ]}
-                        customStyles={{
-                            top: 40,
-                            marginLeft: Sizing(isIOS ? -16 : -6),
-                            alignSelf: "stretch",
-                        }}
-                    />
-
                 </View>
 
                 <DateTimePicker
@@ -406,8 +369,7 @@ const SignUp = ({ route, navigation }) => {
                     setDatePickerVisibility={setDateTimePickerVisibility}
                     handleConfirm={handleConfirm}
                     hideDatePicker={hideDatePicker}
-                    dateTime={dob}
-
+                    dateTime={birthDate}
                 />
 
                 <TouchableOpacity
@@ -418,7 +380,7 @@ const SignUp = ({ route, navigation }) => {
                         style={styles.registerBtnText}
                     >{"Register"}</Text>
                 </TouchableOpacity>
-
+                <View style={{ height: 80 }}></View>
             </ScrollView>
         </SafeAreaView >
     )
@@ -458,7 +420,7 @@ const styles = StyleSheet.create({
         width: Sizing(22),
         height: Sizing(22),
         borderRadius: Sizing(11),
-        backgroundColor: COLOR_GYM_RED,
+        backgroundColor: COLOR_HOTEL_RED,
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
@@ -505,9 +467,10 @@ const styles = StyleSheet.create({
     },
 
     registerBtn: {
+        top: 30,
         marginBottom: Sizing(20),
         marginTop: Sizing(70),
-        backgroundColor: COLOR_GYM_RED,
+        backgroundColor: COLOR_HOTEL_RED,
         borderRadius: 30,
         height: 50,
         alignSelf: "center",
