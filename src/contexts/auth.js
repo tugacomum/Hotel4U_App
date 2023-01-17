@@ -62,7 +62,6 @@ export function AuthProvider({ children }) {
 
     async function verify({ username, codee, navigation }) {
         const code = parseInt(codee);
-        console.log(username)
         try {
             await api.post('verify', {
                 username, code }).then(r => r.data);
@@ -78,8 +77,42 @@ export function AuthProvider({ children }) {
         }
     }
 
+    async function pass({ email, navigation }) {
+        try {
+            await api.post('recoversend', {
+                email
+            }).then(r => r.data)
+            showMessage({
+                type: "success",
+                message: "Check your email",
+                duration: 2000
+            })
+        } catch (err) {
+            console.log(">>>>>> ", err.response.data)
+        } finally {
+            navigation.navigate('RecoverPassword', { email: email })
+        }
+    }
+ 
+    async function recover({email, password, code, navigation}) {
+        try {
+            await api.post('recover', {
+                email, code, password
+            }).then(r => r.data)
+            showMessage({
+                type: "success",
+                message: "Password recovered successfully",
+                duration: 2000
+            })
+        } catch (err) {
+            console.log(">>>>>> ", err.response.data)
+        } finally {
+            navigation.navigate('SignIn')
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{ user, signIn, logout, setUser, register, verify }}>
+        <AuthContext.Provider value={{ user, signIn, logout, setUser, register, verify, pass, recover }}>
             {children}
         </AuthContext.Provider>
     )

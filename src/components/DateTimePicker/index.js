@@ -42,6 +42,7 @@ const DateTimePicker = ({ isDatePickerVisible, handleConfirm, hideDatePicker, da
                     >
 
                         <RNDateTimePicker
+                            
                             value={selectedDate}
                             is24Hour={true}
                             onChange={(date, date_time) => {

@@ -7,48 +7,49 @@ import { api } from "../../services/api";
 
 export default function HotelsScreen() {
     const [isLoadingDone, setLoadingDone] = useState(false);
-  const [data, setData] = useState([]);
-  async function getData() { 
-    try {
-      const response = await api.get('hotels').then(r => r.data);
-      setData(response)
-    } catch (err) {
-      console.log("Err: " + err)
-    } finally {
-      setTimeout(()=> {
-        setLoadingDone(true);
-      }, 500);
+    const [data, setData] = useState([]);
+    async function getData() {
+        try {
+            const response = await api.get('hotels').then(r => r.data);
+            setData(response)
+        } catch (err) {
+            console.log("Err: " + err)
+        } finally {
+            setTimeout(() => {
+                setLoadingDone(true);
+            }, 500);
+        }
     }
-  }
-  
-  useEffect(()=>{
-    getData();
-  }, [])
 
-  if (!isLoadingDone) {
-    return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
-            <Loader size="large" />
-        </View>
-    )
-  } else {
-    return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-            <View style={style.header}>
-                <View style={{ paddingBottom: 15 }}>
-                    <Text style={{ fontSize: 30, fontWeight: 'bold' }}>
-                        Here's all the <Text
-                            style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.primary }}>
-                            hotels
-                        </Text>
-                    </Text>
-                </View>
+    useEffect(() => {
+        getData();
+    }, [])
+
+    if (!isLoadingDone) {
+        return (
+            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+                <Loader size="large" />
             </View>
-            {
-                data.length > 0 ? data.map(item => { return(<HotelList item={item} />) }) : null
-            }
-        </SafeAreaView>
-    )}
+        )
+    } else {
+        return (
+            <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+                <View style={style.header}>
+                    <View style={{ paddingBottom: 15 }}>
+                        <Text style={{ fontSize: 30, fontWeight: 'bold' }}>
+                            Here's all the <Text
+                                style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.primary }}>
+                                hotels
+                            </Text>
+                        </Text>
+                    </View>
+                </View>
+                {
+                    data.length > 0 ? data.map(item => { return (<HotelList item={item} />) }) : null
+                }
+            </SafeAreaView>
+        )
+    }
 }
 
 const style = StyleSheet.create({

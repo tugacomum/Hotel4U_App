@@ -9,6 +9,7 @@ import SignUp from '../views/auth/signup';
 import SignIn from '../views/auth/signin';
 import OTPScreen from "../views/auth/OTPScreen";
 import ForgotPassword from "../views/auth/ForgotPassword";
+import RecoverPassword from "../views/auth/RecoverPassword";
 
 import OnBoarding from '../views/onBoarding/WelcomePage';
 import FirstPage from '../views/onBoarding/FirstPage';
@@ -107,6 +108,10 @@ export default function AuthRoutes() {
                 <AuthStack.Screen
                     name="ForgotPassword"
                     component={ForgotPassword}
+                />
+                <AuthStack.Screen
+                    name="RecoverPassword"
+                    component={RecoverPassword}
                 />
             </AuthStack.Navigator>
         </>

@@ -1,18 +1,41 @@
 import { View, Text, ScrollView, Image, Dimensions, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Label, Item, Input } from 'native-base';
 import COLORS from '../../consts/colors';
-import {Sizing} from '../../helper/sizing'
-import { api } from '../../services/api';
+import {Sizing} from '../../helper/sizing';
+import validator from 'validator';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
+import { useAuth } from '../../contexts/auth';
+import { useState } from 'react';
 
 export default function ForgotPassword({ navigation }) {
-    function SendMail() {
+    const [email, setEmail] = useState("");
+    const { pass } = useAuth();
+    async function forgotPass() {
+        if (validator.isEmpty(email)) {
+            showMessage({
+                type: "danger",
+                message: "Email field missing!",
+            });
+            return
+        }
 
-        //navigation.navigate('OTPScreen')
+        if (!validator.isEmail(email)) {
+            showMessage({
+                type: "danger",
+                message: "Please enter correct email!",
+            });
+            return
+        }
+        pass({
+            navigation: navigation,
+            email: email
+        })
     }
     return (
         <ScrollView
             style={{ flex: 1, backgroundColor: COLORS.white }}
             showsVerticalScrollIndicator={false}>
+            <FlashMessage />
             <View style={{ alignSelf: 'center', marginTop: 66, marginHorizontal: 40 }}>
                 <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center' }}>Forgot your password?</Text>
                 <Text style={{ textAlign: 'center', color: COLORS.grey, marginTop: 20 }}>Enter your registered email below </Text><Text style={{textAlign: 'center', color: COLORS.grey, bottom: 2}}>to receive password reset instruction</Text>
@@ -23,10 +46,10 @@ export default function ForgotPassword({ navigation }) {
                     <Image source={require('../../assets/email.png')} style={{ top: 44, tintColor: COLORS.dark, width: 27, height: 27 }} />
                     <Item floatingLabel style={{ borderColor: '#A1A1A1', width: Dimensions.get('window').width / 1.6, alignSelf: 'center', left: 5 }}>
                         <Label style={{ top: -8, left: 5, color: '#383838', fontStyle: 'normal', fontSize: 15 }}>Enter your email</Label>
-                        <Input enablesReturnKeyAutomatically autoCapitalize='none' autoComplete='off' keyboardType='default' placeholder='' style={{ paddingLeft: 5 }} />
+                        <Input enablesReturnKeyAutomatically autoCapitalize='none' autoComplete='off' keyboardType='email-address' placeholder='' value={email} onChangeText={(text) => setEmail(text)} style={{ paddingLeft: 5 }} />
                     </Item>
                 </View>
-                <TouchableOpacity onPress={SendMail} style={{ borderWidth: 1, borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary, width: Dimensions.get('window').width / 1.2, top: 50, alignSelf: 'center', justifyContent: 'center', height: 50 }}>
+                <TouchableOpacity onPress={forgotPass} style={{ borderWidth: 1, borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary, width: Dimensions.get('window').width / 1.2, top: 50, alignSelf: 'center', justifyContent: 'center', height: 50 }}>
                     <Text style={{ color: 'white', fontWeight: '500', fontSize: 17, fontStyle: 'normal', alignSelf: 'center' }}>Next</Text>
                 </TouchableOpacity>
                 <View style={{ height: 130 }} />
