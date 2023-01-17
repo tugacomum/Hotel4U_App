@@ -11,6 +11,7 @@ import Modal from "react-native-modal";
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import COLORS from "../../consts/colors";
 
 const COLOR_HOTEL4U = "#B71341"
 
@@ -27,7 +28,7 @@ const DateTimePicker = ({ isDatePickerVisible, handleConfirm, hideDatePicker, da
                     margin: 0,
                     justifyContent: 'flex-end',
                     paddingBottom: 40,
-                    marginHorizontal: 10
+                    marginHorizontal: 10,
                 }}
             >
 
@@ -46,9 +47,8 @@ const DateTimePicker = ({ isDatePickerVisible, handleConfirm, hideDatePicker, da
                             onChange={(date, date_time) => {
                                 setSelectedDate(date_time)
                             }}
-
+                            textColor={COLORS.primary}
                             display="inline"
-
                             maximumDate={new Date()}
                             minuteInterval={15}
                             style={{ flex: 1 }}

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, Dimensions, TouchableOpacity, Alert, Pressable, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Image, Dimensions, TouchableOpacity, Alert, Pressable, StyleSheet, SafeAreaView } from 'react-native';
 import { Label, Item, Input } from 'native-base';
 import Checkbox from 'expo-checkbox';
 import { useState } from 'react';
@@ -8,6 +8,7 @@ import { useAuth } from '../../contexts/auth';
 import { useTogglePasswordVisibility } from '../../hooks/useTogglePasswordVisibility';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
 import validator from 'validator';
+import { StatusBar } from 'react-native';
 
 let teste;
 
@@ -54,12 +55,14 @@ export default function signin() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: '#ffffff' }}
-      showsVerticalScrollIndicator={false}>
+      style={{ flex: 1, backgroundColor: '#ffffff' }}>
       <FlashMessage />
-      <View style={{ padding: 40, top: 100 }}>
-        <Image source={require('../../../assets/icon2.png')} style={{ alignSelf: 'center' }} />
-        <View style={{ marginTop: 30 }}>
+      <Image source={require('../../assets/travel.png')} style={{ alignSelf: 'center', width: 300, height: 224.1, marginTop: 50 }} />
+      <View style={{ alignSelf: 'center', marginHorizontal: 40 }}>
+        <Text style={{ fontSize: 25, fontWeight: 'bold', textAlign: 'center' }}>Welcome back!</Text>
+        <Text style={{ textAlign: 'center', color: COLORS.grey, marginTop: 10 }}>Log in to your existant account of <Text style={{ color: COLORS.primary }}>Hotel4U</Text></Text>
+      </View><View style={{ paddingRight: 40, paddingLeft: 40 }}>
+        <View style={{ marginTop: 10 }}>
           <Image source={require('../../assets/user3.png')} style={{ top: 44, tintColor: COLORS.dark, width: 27, height: 27 }} />
           <Item floatingLabel style={{ borderColor: '#A1A1A1', width: Dimensions.get('window').width / 1.6, alignSelf: 'center', left: 5 }}>
             <Label style={{ top: -8, left: 5, color: '#383838', fontStyle: 'normal', fontSize: 15 }}>Username</Label>
@@ -85,7 +88,7 @@ export default function signin() {
           <Text onPress={() => navigation.navigate('ForgotPassword')} style={{ color: COLORS.primary, textAlign: 'right', fontSize: 15, top: 22, fontStyle: 'normal', flex: 1 }}>Forgot password?</Text>
         </View>
         <TouchableOpacity onPress={handleLogin} style={{ borderWidth: 1, borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary, width: Dimensions.get('window').width / 1.2, top: 60, alignSelf: 'center', justifyContent: 'center', height: 50 }}>
-          <Text style={{ color: 'white', fontWeight: '500', fontSize: 17, fontStyle: 'normal', alignSelf: 'center' }}>Log in</Text>
+          <Text style={{ color: 'white', fontWeight: '500', fontSize: 17, fontStyle: 'normal', alignSelf: 'center' }}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
@@ -93,9 +96,9 @@ export default function signin() {
           }}
           style={{ marginTop: 70 }}
         >
-          <Text style={{ fontStyle: 'normal', alignSelf: 'center', fontSize: 15, lineHeight: 19.92, marginTop: 40 }}>Don't have an account?<Text style={{ fontWeight: '700', fontStyle: 'normal' }} > Register!</Text></Text>
+          <Text style={{ fontStyle: 'normal', alignSelf: 'center', fontSize: 15, lineHeight: 19.92, marginTop: 10 }}>Don't have an account?<Text style={{ fontWeight: '700', fontStyle: 'normal' }} > Register!</Text></Text>
         </TouchableOpacity>
-        <View style={{ height: 120 }} />
+        <View style={{ height: 75 }} />
       </View>
     </ScrollView>
   );

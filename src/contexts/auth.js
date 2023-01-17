@@ -56,12 +56,13 @@ export function AuthProvider({ children }) {
         } catch (err) {
             console.log(">>>>>> ", err.response.data)
         } finally {
-            navigation.navigate('OTPScreen', { username })
+            navigation.navigate('OTPScreen', { username: username })
         }
     }
 
     async function verify({ username, codee, navigation }) {
         const code = parseInt(codee);
+        console.log(username)
         try {
             await api.post('verify', {
                 username, code }).then(r => r.data);

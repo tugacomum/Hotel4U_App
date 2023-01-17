@@ -14,14 +14,14 @@ import moment from "moment";
 import validator from "validator";
 import FlashMessage, { showMessage } from 'react-native-flash-message';
 
+import { backArrow, bellIcon, calendarIcon } from "../../assets"
+
 import { Label, Item, Input, Picker } from 'native-base';
 
 import DateTimePicker from "../../components/DateTimePicker"
 import { Sizing } from '../../helper/sizing'
 import { isIOS } from "../../helper"
 import { Dimensions } from 'react-native';
-
-import { calendarIcon } from "../../assets/"
 
 import COLORS from '../../consts/colors';
 
@@ -151,6 +151,41 @@ const SignUp = ({ navigation }) => {
         };
     }, [])
 
+    const Header = () => {
+        return (
+
+            <View style={styles.header}>
+                
+                <TouchableOpacity onPress={() => navigation?.goBack?.()} >
+                    
+                    <Image
+                        source={backArrow}
+                        style={styles.backArrow}
+                    />
+                </TouchableOpacity>
+                <Text style={{ fontSize: 22, fontWeight: 'bold', marginLeft: 20 }}>Let's Get <Text style={{color: COLORS.primary}}>Started!</Text></Text>
+                
+                <View style={styles.rightIcon}>
+
+                    <Image
+                        source={bellIcon}
+                        style={styles.bellIcon}
+                    />
+                    
+                    <View style={styles.notificationCount}
+                    >
+                        
+                        <Text style={styles.notificationCountText} >1</Text>
+
+
+                    </View>
+
+                </View>
+            </View>
+
+        )
+    }
+
     const keyboardWillShow = event => {
         const newSize = event.endCoordinates.height - 30;
         setMargin(newSize);
@@ -240,12 +275,13 @@ const SignUp = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.safeArea}>
+            <Header />
+            <Text style={{ textAlign: 'center', color: COLORS.grey, bottom: 10 }}>Create an account to Hotel4U </Text><Text style={{ textAlign: 'center', color: COLORS.grey, bottom: 12 }}>to get all features</Text>
             <FlashMessage />
             <ScrollView style={styles.mainView} >
-                <Text style={styles.title} >Register</Text>
-
+            
                 <View
-                    style={{ marginBottom: margin, marginTop: 20 }}
+                    style={{ marginBottom: margin }}
                 >
                     <HotelTextInput
                         autoCapitalize='none' autoComplete='off'
@@ -380,7 +416,7 @@ const SignUp = ({ navigation }) => {
                         style={styles.registerBtnText}
                     >{"Register"}</Text>
                 </TouchableOpacity>
-                <View style={{ height: 80 }}></View>
+                <View style={{ height: 30 }}></View>
             </ScrollView>
         </SafeAreaView >
     )
@@ -395,12 +431,13 @@ const styles = StyleSheet.create({
     mainView: {
         flex: 1,
         paddingHorizontal: 18,
+        bottom: 10
     },
 
     header: {
         paddingHorizontal: Sizing(20),
         paddingBottom: Sizing(20),
-        paddingTop: Sizing(isIOS ? 10 : 40),
+        paddingTop: Sizing(isIOS ? 5 : 20),
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",

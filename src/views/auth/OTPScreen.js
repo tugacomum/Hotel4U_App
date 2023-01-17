@@ -1,9 +1,10 @@
-import { View, Text, ScrollView, Image, Dimensions, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text,  Image, Dimensions, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Sizing } from '../../helper/sizing';
 import { useState, useRef } from 'react';
 import COLORS from '../../consts/colors';
 import { useAuth } from '../../contexts/auth';
 import validator from 'validator';
+import { isIOS } from '../../helper';
 
 export default function OTPScreen({ route, navigation }) {
   const { verify } = useAuth();
@@ -46,9 +47,8 @@ export default function OTPScreen({ route, navigation }) {
   }
 
   return (
-    <ScrollView
-      style={{ flex: 1, backgroundColor: '#ffffff' }}
-      showsVerticalScrollIndicator={false}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: '#ffffff' }}>
       <View style={{ alignSelf: 'center', marginTop: 66, marginHorizontal: 40 }}>
         <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center' }}>Verify your email!</Text>
         <Text style={{ textAlign: 'center', color: COLORS.grey, marginTop: 20 }}>Check your email inbox and insert </Text><Text style={{ textAlign: 'center', color: COLORS.grey, bottom: 2 }}>the code that we've sent.</Text>
@@ -81,13 +81,12 @@ export default function OTPScreen({ route, navigation }) {
               pin6Ref.current.focus();
             }
           }} ref={pin5Ref} style={{ backgroundColor: '#f5f4f2', textAlign: 'center', fontWeight: '600', alignSelf: 'center', padding: 10, fontSize: 20, height: 55, width: '15%', borderRadius: 10, borderWidth: 0.5, borderColor: "grey", justifyContent: 'center' }} caretHidden />
-          <TextInput value={pin6} keyboardType='numeric' maxLength={1} onChangeText={(text) => { setPin6(text) }} ref={pin6Ref} style={{ backgroundColor: '#f5f4f2', textAlign: 'center', fontWeight: '600', alignSelf: 'center', padding: 10, fontSize: 20, height: 55, width: '15%', borderRadius: 10, borderWidth: 0.5, borderColor: "grey", justifyContent: 'center' }} caretHidden />
+          <TextInput returnKeyLabel='done' value={pin6} keyboardType='numeric' maxLength={1} onChangeText={(text) => { setPin6(text) }} ref={pin6Ref} style={{ backgroundColor: '#f5f4f2', textAlign: 'center', fontWeight: '600', alignSelf: 'center', padding: 10, fontSize: 20, height: 55, width: '15%', borderRadius: 10, borderWidth: 0.5, borderColor: "grey", justifyContent: 'center' }} caretHidden />
         </View>
-        <TouchableOpacity onPress={verifyEmail} style={{ borderWidth: 1, borderRadius: 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary, width: Dimensions.get('window').width / 1.2, top: 60, alignSelf: 'center', justifyContent: 'center', height: 50 }}>
-          <Text style={{ color: 'white', fontWeight: '500', fontSize: 17, fontStyle: 'normal', alignSelf: 'center' }}>Verify account</Text>
+        <TouchableOpacity onPress={verifyEmail} style={{ borderWidth: 1, borderRadius: isIOS ? '60%' : 30, borderColor: COLORS.primary, backgroundColor: COLORS.primary, width: Dimensions.get('window').width / 1.2, top: 100, alignSelf: 'center', justifyContent: 'center', height: 50 }}>
+          <Text style={{ color: 'white', fontWeight: '500', fontSize: 17, fontStyle: 'normal', alignSelf: 'center' }}>Verify</Text>
         </TouchableOpacity>
-        <View style={{ height: 120 }} />
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 }
