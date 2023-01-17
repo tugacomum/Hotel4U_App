@@ -1,17 +1,20 @@
-import { SafeAreaView, Text, View, StyleSheet } from "react-native";
+import { SafeAreaView, Text, View, StyleSheet, FlatList, Dimensions } from "react-native";
 import COLORS from "../../consts/colors";
 import React, { useState, useEffect } from "react";
-import HotelList from '../../components/HotelList';
+import { HotelCard, HomeHeader } from "../../components";
 import { Loader } from "../../components/Loader";
 import { api } from "../../services/api";
 
 export default function HotelsScreen() {
     const [isLoadingDone, setLoadingDone] = useState(false);
     const [data, setData] = useState([]);
+    const [hotels, setHotels] = useState([]);
+
     async function getData() {
         try {
             const response = await api.get('hotels').then(r => r.data);
             setData(response)
+            setHotels(response)
         } catch (err) {
             console.log("Err: " + err)
         } finally {
@@ -20,6 +23,20 @@ export default function HotelsScreen() {
             }, 500);
         }
     }
+
+    const handleSearch = (value) => {
+        if (value.length === 0) {
+            setHotels(data);
+        }
+        const filteredData = data.filter((item) =>
+            item.name.toLowerCase().includes(value.toLowerCase())
+        );
+        if (filteredData.length === 0) {
+            setHotels(data)
+        } else {
+            setHotels(filteredData);
+        }
+    };
 
     useEffect(() => {
         getData();
@@ -34,19 +51,15 @@ export default function HotelsScreen() {
     } else {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
-                <View style={style.header}>
-                    <View style={{ paddingBottom: 15 }}>
-                        <Text style={{ fontSize: 30, fontWeight: 'bold' }}>
-                            Here's all the <Text
-                                style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.primary }}>
-                                hotels
-                            </Text>
-                        </Text>
-                    </View>
+                <View style={{ zIndex: 0 }}>
+                    <FlatList
+                        data={hotels}
+                        renderItem={({ item }) => <HotelCard data={item} />}
+                        keyExtractor={(item) => item._id}
+                        showsVerticalScrollIndicator={false}
+                        ListHeaderComponent={<HomeHeader onSearch={handleSearch} />} />
                 </View>
-                {
-                    data.length > 0 ? data.map(item => { return (<HotelList item={item} />) }) : null
-                }
+                
             </SafeAreaView>
         )
     }
@@ -54,6 +67,7 @@ export default function HotelsScreen() {
 
 const style = StyleSheet.create({
     header: {
+        flex: 1,
         marginTop: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',

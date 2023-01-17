@@ -11,13 +11,14 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Appearance } from 'react-native';
 
 const DetailsScreen = ({navigation, route}) => {
-  const item = route.params;
+  const item = route.params.hotel;
   const [fav, setFav] = useState(false);
   const handleClick = () => {
     setFav(!fav);
   };
   const [color, setColor] = useState('light');
     useEffect(() => {
+      console.log(item)
         Appearance.addChangeListener(({ colorScheme }) => { setColor(colorScheme) });
     })
   return (
@@ -28,7 +29,7 @@ const DetailsScreen = ({navigation, route}) => {
         flex:1
       }}>
       
-      <ImageBackground style={style.headerImage} source={item.image}>
+      <ImageBackground style={style.headerImage} source={{uri:item.image}}>
         <View style={style.header}>
           <Icon
             name="arrow-back-ios"
@@ -77,7 +78,7 @@ const DetailsScreen = ({navigation, route}) => {
           </View>
           <View style={{marginTop: 20}}>
             <Text style={{lineHeight: 20, color: COLORS.grey}}>
-              {item.details}
+              {item.description}
             </Text>
           </View>
         </View>
@@ -157,7 +158,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   headerImage: {
-    height: 400,
+    height: 300,
     borderBottomRightRadius: 40,
     borderBottomLeftRadius: 40,
     overflow: 'hidden',
