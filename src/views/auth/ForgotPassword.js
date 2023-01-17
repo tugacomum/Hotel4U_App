@@ -41,7 +41,7 @@ export default function ForgotPassword({ navigation }) {
                 <Text style={{ textAlign: 'center', color: COLORS.grey, marginTop: 20 }}>Enter your registered email below </Text><Text style={{textAlign: 'center', color: COLORS.grey, bottom: 2}}>to receive password reset instruction</Text>
             </View>
             <View style={{ padding: 40 }}>
-                <Image source={require('../../assets/inbox.png')} style={{ alignSelf: 'center', width: Sizing(200), height: Sizing(200) }} />
+                <Image source={require('../../assets/outbox.png')} style={{ alignSelf: 'center', width: Sizing(200), height: Sizing(200) }} />
                 <View style={{ marginTop: 30 }}>
                     <Image source={require('../../assets/email.png')} style={{ top: 44, tintColor: COLORS.dark, width: 27, height: 27 }} />
                     <Item floatingLabel style={{ borderColor: '#A1A1A1', width: Dimensions.get('window').width / 1.6, alignSelf: 'center', left: 5 }}>

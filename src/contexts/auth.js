@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
         api.defaults.headers['authorization'] = `${token}`;
         if (isChecked == true) await AsyncStorage.setItem('@hotel4u:token', token);
         setUser(user);
-        if(!user) {
+        if (!user) {
             showMessage({
                 type: "danger",
                 message: "Wrong credentials",
@@ -64,7 +64,8 @@ export function AuthProvider({ children }) {
         const code = parseInt(codee);
         try {
             await api.post('verify', {
-                username, code }).then(r => r.data);
+                username, code
+            }).then(r => r.data);
             showMessage({
                 type: "success",
                 message: "Account verified successfully",
@@ -93,22 +94,25 @@ export function AuthProvider({ children }) {
             navigation.navigate('RecoverPassword', { email: email })
         }
     }
- 
-    async function recover({email, password, code, navigation}) {
-        try {
-            await api.post('recover', {
-                email, code, password
-            }).then(r => r.data)
-            showMessage({
+
+    async function recover({ email, password, codee, navigation }) {
+        const code = parseInt(codee);
+        await api.post('recover', {
+            email, code, password
+        }).then(r => {
+            r.data; showMessage({
                 type: "success",
                 message: "Password recovered successfully",
                 duration: 2000
             })
-        } catch (err) {
-            console.log(">>>>>> ", err.response.data)
-        } finally {
             navigation.navigate('SignIn')
-        }
+        }).catch(err => {
+            console.log(err); showMessage({
+                type: "danger",
+                message: "Code does not match",
+                duration: 2000
+            })
+        })
     }
 
     return (

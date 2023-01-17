@@ -17,6 +17,7 @@ import SecondPage from '../views/onBoarding/SecondPage';
 import ThirdPage from '../views/onBoarding/ThirdPage';
 
 import { Loader } from '../components/Loader';
+import FinishRecover from "../views/auth/FinishRecover";
 
 const config = {
     animation: 'spring',
@@ -112,6 +113,10 @@ export default function AuthRoutes() {
                 <AuthStack.Screen
                     name="RecoverPassword"
                     component={RecoverPassword}
+                />
+                <AuthStack.Screen
+                    name="FinishRecover"
+                    component={FinishRecover}
                 />
             </AuthStack.Navigator>
         </>

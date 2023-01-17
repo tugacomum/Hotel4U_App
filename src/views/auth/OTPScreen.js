@@ -5,6 +5,7 @@ import COLORS from '../../consts/colors';
 import { useAuth } from '../../contexts/auth';
 import validator from 'validator';
 import { isIOS } from '../../helper';
+import FlashMessage, { showMessage } from 'react-native-flash-message';
 
 export default function OTPScreen({ route, navigation }) {
   const { verify } = useAuth();
@@ -25,7 +26,7 @@ export default function OTPScreen({ route, navigation }) {
   const codee = pin1 + pin2 + pin3 + pin4 + pin5 + pin6;
   const username = route.params.username;
 
-  function verifyEmail() {
+  async function verifyEmail() {
     if (validator.isEmpty(username)) {
       showMessage({
           type: "danger",
@@ -49,6 +50,7 @@ export default function OTPScreen({ route, navigation }) {
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: '#ffffff' }}>
+      <FlashMessage />
       <View style={{ alignSelf: 'center', marginTop: 66, marginHorizontal: 40 }}>
         <Text style={{ fontSize: 22, fontWeight: 'bold', textAlign: 'center' }}>Verify your email!</Text>
         <Text style={{ textAlign: 'center', color: COLORS.grey, marginTop: 20 }}>Check your email inbox and insert </Text><Text style={{ textAlign: 'center', color: COLORS.grey, bottom: 2 }}>the code that we've sent.</Text>
