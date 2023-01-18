@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, Image, TextInput } from "react-native";
 import COLORS from "../consts/colors";
 
+
 const HomeHeader = ({ onSearch }) => {
   return (
     <View
@@ -16,12 +17,13 @@ const HomeHeader = ({ onSearch }) => {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 20,
+        top: 5
       }}>
         <View style={{ paddingBottom: 15 }}>
-          <Text style={{ fontSize: 30, fontWeight: 'bold' }}>
+          <Text style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.dark }}>
             Here's all the <Text
               style={{ fontSize: 30, fontWeight: 'bold', color: COLORS.primary }}>
-              hotels
+              Hotels
             </Text>
           </Text>
         </View>

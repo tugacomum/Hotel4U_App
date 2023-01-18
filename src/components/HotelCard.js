@@ -19,7 +19,8 @@ const HotelCard = ({ data }) => {
         marginBottom: SIZES.extraLarge,
         margin: SIZES.base,
         ...SHADOWS.dark,
-        marginTop: 25
+        marginTop: 25,
+        padding: 10
       }}
     >
       <View

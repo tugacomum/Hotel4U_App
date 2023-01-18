@@ -1,7 +1,7 @@
 import { SafeAreaView, Text, View, StyleSheet, FlatList, Dimensions } from "react-native";
 import COLORS from "../../consts/colors";
 import React, { useState, useEffect } from "react";
-import { HotelCard, HomeHeader } from "../../components";
+import { HotelCard, HomeHeader, FocusedStatusBar } from "../../components";
 import { Loader } from "../../components/Loader";
 import { api } from "../../services/api";
 
@@ -51,6 +51,7 @@ export default function HotelsScreen() {
     } else {
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
+                <FocusedStatusBar backgroundColor={COLORS.primary} barStyle='light'/>
                 <View style={{ zIndex: 0 }}>
                     <FlatList
                         data={hotels}
@@ -59,7 +60,6 @@ export default function HotelsScreen() {
                         showsVerticalScrollIndicator={false}
                         ListHeaderComponent={<HomeHeader onSearch={handleSearch} />} />
                 </View>
-                
             </SafeAreaView>
         )
     }
